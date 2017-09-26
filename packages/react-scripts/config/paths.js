@@ -64,6 +64,10 @@ module.exports = {
   appTsLint: resolveApp('tslint.json'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+
+  // Realytics
+  // we export this because we need it to resolve bundles paths
+  resolveApp: resolveApp,
 };
 
 // @remove-on-eject-begin
@@ -86,6 +90,11 @@ module.exports = {
   appTsTestConfig: resolveApp('tsconfig.test.json'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+
+  // Realytics
+  // we export this because we need it to resolve bundles paths
+  resolveApp: resolveApp,
+
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
   ownNodeModules: resolveOwn('node_modules'), // This is empty on npm 3
@@ -121,6 +130,10 @@ if (
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
     ownNodeModules: resolveOwn('node_modules'),
+
+    // Realytics
+    // we export this because we need it to resolve bundles paths
+    resolveApp: resolveApp,
   };
 }
 // @remove-on-eject-end

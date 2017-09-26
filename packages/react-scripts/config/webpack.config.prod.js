@@ -14,7 +14,6 @@ const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
@@ -26,6 +25,7 @@ const getClientEnvironment = require('./env');
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -51,14 +51,23 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 // Note: defined here because it will be used more than once.
 const cssFilename = 'static/css/[name].[contenthash:8].css';
 
-// ExtractTextPlugin expects the build output to be flat.
-// (See https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/27)
-// However, our output is structured with css, js and media folders.
-// To have this structure working with relative paths, we have to use custom options.
-const extractTextPluginOptions = shouldUseRelativeAssetPaths
-  ? // Making sure that the publicPath goes back to to build folder.
-    { publicPath: Array(cssFilename.split('/').length).join('../') }
-  : {};
+// Realytics
+// Remove ExtractTextPlugin
+
+// Realytics
+// Get bundles from package.json
+const bundles = require(paths.appPackageJson)['ry-bundles'] || {};
+
+// Realytics
+// Utils to map object values
+function mapValues(arr, mapper) {
+  Object.keys(arr)
+    .map(key => [key, mapper(arr[key], key, arr)])
+    .reduce((acc, item) => {
+      acc[item[0]] = item[1];
+      return acc;
+    }, {});
+}
 
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
@@ -70,7 +79,21 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
-  entry: [require.resolve('./polyfills'), paths.appIndexJs],
+
+  // Realytics
+  // We switch to a object config to add bundles
+
+  entry: Object.assign(
+    // Realytics
+    // Main is the original entry
+    { main: [require.resolve('./polyfills'), paths.appIndexJs] },
+    // Realytics
+    // We add each bundle
+    mapValues(bundles, (name, path) => {
+      const pathArr = Array.isArray(path) ? path : [path];
+      return pathArr.map(path => paths.resolveApp(path));
+    })
+  ),
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -233,6 +256,9 @@ module.exports = {
         minifyCSS: true,
         minifyURLs: true,
       },
+      // Realytics
+      // Include only the main chunk
+      chunks: ['main'],
     }),
 
     // Realtics Add
@@ -245,6 +271,7 @@ module.exports = {
       formatter: 'codeframe',
     }),
     new InlineChunkManifestHtmlWebpackPlugin(),
+    new ManifestPlugin(),
 
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
@@ -269,10 +296,10 @@ module.exports = {
       },
       sourceMap: shouldUseSourceMap,
     }),
-    // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-    new ExtractTextPlugin({
-      filename: cssFilename,
-    }),
+
+    // Realytics
+    // Remove ExtractTextPlugin
+
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
