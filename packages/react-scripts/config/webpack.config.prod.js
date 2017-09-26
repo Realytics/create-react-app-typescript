@@ -24,7 +24,7 @@ const getClientEnvironment = require('./env');
 // Realytics
 // const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
+const ChunkManifestWebpackPlugin = require('chunk-manifest-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -287,12 +287,14 @@ module.exports = {
     // Realytics
     // Remove ExtractTextPlugin
 
+    // Realytics
+    // Commented this because ChunkManifestWebpackPlugin
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
-    new ManifestPlugin({
-      fileName: 'asset-manifest.json',
-    }),
+    // new ManifestPlugin({
+    //   fileName: 'asset-manifest.json',
+    // }),
 
     // Realtics Add
     // Use ForkTsCheckerPlugin to speed up compilation
@@ -303,7 +305,10 @@ module.exports = {
     //   memoryLimit: 2500,
     //   formatter: 'codeframe',
     // }),
-    new InlineManifestWebpackPlugin(),
+    new ChunkManifestWebpackPlugin({
+      inlineManifest: true,
+      filename: 'asset-manifest.json',
+    }),
 
     // Generate a service worker script that will precache, and keep up to date,
     // the HTML & assets that are part of the Webpack build.
