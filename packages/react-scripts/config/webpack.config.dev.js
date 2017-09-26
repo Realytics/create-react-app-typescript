@@ -23,7 +23,8 @@ const paths = require('./paths');
 
 // Realytics
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
-var TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -224,6 +225,7 @@ module.exports = {
       memoryLimit: 2500,
       formatter: 'codeframe',
     }),
+    new InlineChunkManifestHtmlWebpackPlugin(),
 
     // Add module names to factory functions so they appear in browser profiler.
     new webpack.NamedModulesPlugin(),

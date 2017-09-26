@@ -24,7 +24,8 @@ const getClientEnvironment = require('./env');
 
 // Realytics
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
-var TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -243,6 +244,7 @@ module.exports = {
       memoryLimit: 2500,
       formatter: 'codeframe',
     }),
+    new InlineChunkManifestHtmlWebpackPlugin(),
 
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
