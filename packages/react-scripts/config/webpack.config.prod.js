@@ -60,7 +60,7 @@ const bundles = require(paths.appPackageJson)['ry-bundles'] || {};
 // Realytics
 // Utils to map object values
 function mapValues(arr, mapper) {
-  Object.keys(arr)
+  return Object.keys(arr)
     .map(key => [key, mapper(arr[key], key, arr)])
     .reduce((acc, item) => {
       acc[item[0]] = item[1];
