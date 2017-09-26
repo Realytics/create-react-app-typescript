@@ -267,7 +267,9 @@ module.exports = {
     //   formatter: 'codeframe',
     // }),
     new InlineChunkManifestHtmlWebpackPlugin(),
-    new ManifestPlugin(),
+    new ManifestPlugin({
+      fileName: 'asset-manifest.json',
+    }),
 
     // Add module names to factory functions so they appear in browser profiler.
     new webpack.NamedModulesPlugin(),
