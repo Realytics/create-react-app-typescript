@@ -22,8 +22,8 @@ const paths = require('./paths');
 const getClientEnvironment = require('./env');
 
 // Realytics
-const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
-// const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+// const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
+const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
