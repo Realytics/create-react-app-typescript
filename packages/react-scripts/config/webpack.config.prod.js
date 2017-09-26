@@ -24,7 +24,7 @@ const getClientEnvironment = require('./env');
 // Realytics
 // const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
+const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -260,18 +260,6 @@ module.exports = {
       // Include only the main chunk
       chunks: ['main'],
     }),
-
-    // Realtics Add
-    // Use ForkTsCheckerPlugin to speed up compilation
-    // new ForkTsCheckerPlugin({
-    //   tsconfig: paths.appTsConfig,
-    //   tslint: paths.appTsLint,
-    //   workers: ForkTsCheckerPlugin.TWO_CPUS_FREE,
-    //   memoryLimit: 2500,
-    //   formatter: 'codeframe',
-    // }),
-    new InlineChunkManifestHtmlWebpackPlugin(),
-
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.
@@ -305,6 +293,18 @@ module.exports = {
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
     }),
+
+    // Realtics Add
+    // Use ForkTsCheckerPlugin to speed up compilation
+    // new ForkTsCheckerPlugin({
+    //   tsconfig: paths.appTsConfig,
+    //   tslint: paths.appTsLint,
+    //   workers: ForkTsCheckerPlugin.TWO_CPUS_FREE,
+    //   memoryLimit: 2500,
+    //   formatter: 'codeframe',
+    // }),
+    new InlineManifestWebpackPlugin(),
+
     // Generate a service worker script that will precache, and keep up to date,
     // the HTML & assets that are part of the Webpack build.
     new SWPrecacheWebpackPlugin({

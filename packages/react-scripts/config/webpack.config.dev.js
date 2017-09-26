@@ -24,7 +24,7 @@ const paths = require('./paths');
 // Realytics
 // const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
+const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -111,6 +111,10 @@ module.exports = {
     // add chunkhash and name here
     filename: 'static/js/[name].[hash:8].js',
     // There are also additional JS chunk files if you use code splitting.
+
+    // Realytics
+    // Add this so we can manually load chunk and get there export result
+    library: ['App', '[name]'],
 
     // Realytics
     // add chunkhash and name here
@@ -272,10 +276,10 @@ module.exports = {
     //   memoryLimit: 2500,
     //   formatter: 'codeframe',
     // }),
-    new InlineChunkManifestHtmlWebpackPlugin(),
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
     }),
+    new InlineManifestWebpackPlugin(),
 
     // Add module names to factory functions so they appear in browser profiler.
     new webpack.NamedModulesPlugin(),
