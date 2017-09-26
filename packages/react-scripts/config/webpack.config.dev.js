@@ -109,7 +109,7 @@ module.exports = {
 
     // Realytics
     // add chunkhash and name here
-    filename: 'static/js/[name].[chunkhash:8].js',
+    filename: 'static/js/[name].[hash:8].js',
     // There are also additional JS chunk files if you use code splitting.
 
     // Realytics
