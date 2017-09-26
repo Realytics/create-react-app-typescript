@@ -24,7 +24,6 @@ const paths = require('./paths');
 // Realytics
 // const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const ChunkManifestWebpackPlugin = require('chunk-manifest-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -276,12 +275,8 @@ module.exports = {
     //   memoryLimit: 2500,
     //   formatter: 'codeframe',
     // }),
-    // new ManifestPlugin({
-    //   fileName: 'asset-manifest.json',
-    // }),
-    new ChunkManifestWebpackPlugin({
-      filename: 'asset-manifest.json',
-      inlineManifest: true,
+    new ManifestPlugin({
+      fileName: 'asset-manifest.json',
     }),
 
     // Add module names to factory functions so they appear in browser profiler.
