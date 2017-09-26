@@ -88,7 +88,7 @@ module.exports = {
     { main: [require.resolve('./polyfills'), paths.appIndexJs] },
     // Realytics
     // We add each bundle
-    mapValues(bundles, (name, path) => {
+    mapValues(bundles, (path, name) => {
       const pathArr = Array.isArray(path) ? path : [path];
       return pathArr.map(path => paths.resolveApp(path));
     })
