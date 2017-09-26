@@ -23,7 +23,7 @@ const getClientEnvironment = require('./env');
 
 // Realytics
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
-const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+// const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
@@ -203,10 +203,11 @@ module.exports = {
             test: /\.(ts|tsx)$/,
             include: paths.appSrc,
             loader: require.resolve('ts-loader'),
-            options: {
-              silent: true,
-              transpileOnly: true,
-            },
+            // Realytics
+            // options: {
+            //   silent: true,
+            //   transpileOnly: true,
+            // },
           },
 
           // Realytics
@@ -263,13 +264,13 @@ module.exports = {
 
     // Realtics Add
     // Use ForkTsCheckerPlugin to speed up compilation
-    new ForkTsCheckerPlugin({
-      tsconfig: paths.appTsConfig,
-      tslint: paths.appTsLint,
-      workers: ForkTsCheckerPlugin.TWO_CPUS_FREE,
-      memoryLimit: 2500,
-      formatter: 'codeframe',
-    }),
+    // new ForkTsCheckerPlugin({
+    //   tsconfig: paths.appTsConfig,
+    //   tslint: paths.appTsLint,
+    //   workers: ForkTsCheckerPlugin.TWO_CPUS_FREE,
+    //   memoryLimit: 2500,
+    //   formatter: 'codeframe',
+    // }),
     new InlineChunkManifestHtmlWebpackPlugin(),
     new ManifestPlugin(),
 
