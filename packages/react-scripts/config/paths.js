@@ -52,15 +52,15 @@ function getServedPath(appPackageJson) {
 
 // Realytics
 function findBundles() {
-  const files = fs.readdirSync(resolveApp('/src/bundle'), (err, files) => {
+  const files = fs.readdirSync(resolveApp('src/bundle'), (err, files) => {
     return files.filter(file => {
       return file.endsWith('.ts');
     });
   });
   const bundles = {};
-  names.forEach(file => {
+  files.forEach(file => {
     const name = file.replace(/\.ts$/, '');
-    bundles[name] = resolveApp('/src/bundle/' + file);
+    bundles[name] = resolveApp('src/bundle/' + file);
   });
   return bundles;
 }
