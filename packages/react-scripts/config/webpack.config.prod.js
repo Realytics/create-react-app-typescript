@@ -52,21 +52,6 @@ const cssFilename = 'static/css/[name].[contenthash:8].css';
 // Realytics
 // Remove ExtractTextPlugin
 
-// Realytics
-// Get bundles from package.json
-const bundles = require(paths.appPackageJson)['ry-bundles'] || {};
-
-// Realytics
-// Utils to map object values
-function mapValues(arr, mapper) {
-  return Object.keys(arr)
-    .map(key => [key, mapper(arr[key], key, arr)])
-    .reduce((acc, item) => {
-      acc[item[0]] = item[1];
-      return acc;
-    }, {});
-}
-
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
@@ -87,10 +72,7 @@ module.exports = {
     { main: [require.resolve('./polyfills'), paths.appIndexJs] },
     // Realytics
     // We add each bundle
-    mapValues(bundles, (path, name) => {
-      const pathArr = Array.isArray(path) ? path : [path];
-      return pathArr.map(path => paths.resolveApp(path));
-    })
+    paths.bundles
   ),
   output: {
     // The build folder.

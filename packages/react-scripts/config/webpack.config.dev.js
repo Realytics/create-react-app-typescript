@@ -36,21 +36,6 @@ const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
-// Realytics
-// Get bundles from package.json
-const bundles = require(paths.appPackageJson)['ry-bundles'] || {};
-
-// Realytics
-// Utils to map object values
-function mapValues(arr, mapper) {
-  return Object.keys(arr)
-    .map(key => [key, mapper(arr[key], key, arr)])
-    .reduce((acc, item) => {
-      acc[item[0]] = item[1];
-      return acc;
-    }, {});
-}
-
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
@@ -92,10 +77,7 @@ module.exports = {
     },
     // Realytics
     // We add each bundle
-    mapValues(bundles, (path, name) => {
-      const pathArr = Array.isArray(path) ? path : [path];
-      return pathArr.map(path => paths.resolveApp(path));
-    })
+    paths.bundles
   ),
   output: {
     // Next line is not used in dev but WebpackDevServer crashes without it:
@@ -113,7 +95,7 @@ module.exports = {
 
     // Realytics
     // Add this so we can manually load chunk and get there export result
-    library: ['App', '[name]'],
+    library: 'Bundle',
 
     // Realytics
     // add chunkhash and name here

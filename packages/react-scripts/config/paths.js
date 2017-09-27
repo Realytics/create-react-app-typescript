@@ -12,6 +12,8 @@
 
 const path = require('path');
 const fs = require('fs');
+// Realytics
+const fse = require('fs-extra');
 const url = require('url');
 
 // Make sure any symlinks in the project folder are resolved:
@@ -48,6 +50,21 @@ function getServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
+// Realytics
+function findBundles() {
+  const files = fs.readdirSync(resolveApp('/src/bundle'), (err, files) => {
+    return files.filter(file => {
+      return file.endsWith('.ts');
+    });
+  });
+  const bundles = {};
+  names.forEach(file => {
+    const name = file.replace(/\.ts$/, '');
+    bundles[name] = resolveApp('/src/bundle/' + file);
+  });
+  return bundles;
+}
+
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),
@@ -67,7 +84,7 @@ module.exports = {
 
   // Realytics
   // we export this because we need it to resolve bundles paths
-  resolveApp: resolveApp,
+  bundles: findBundles(),
 };
 
 // @remove-on-eject-begin
@@ -93,7 +110,7 @@ module.exports = {
 
   // Realytics
   // we export this because we need it to resolve bundles paths
-  resolveApp: resolveApp,
+  bundles: findBundles(),
 
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
@@ -133,7 +150,7 @@ if (
 
     // Realytics
     // we export this because we need it to resolve bundles paths
-    resolveApp: resolveApp,
+    bundles: findBundles(),
   };
 }
 // @remove-on-eject-end
