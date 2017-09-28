@@ -72,7 +72,7 @@ module.exports = {
     { main: [require.resolve('./polyfills'), paths.appIndexJs] },
     // Realytics
     // We add each bundle
-    paths.bundles
+    paths.entries
   ),
   output: {
     // The build folder.

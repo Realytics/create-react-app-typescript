@@ -77,7 +77,7 @@ module.exports = {
     },
     // Realytics
     // We add each bundle
-    paths.bundles
+    paths.entries
   ),
   output: {
     // Next line is not used in dev but WebpackDevServer crashes without it:

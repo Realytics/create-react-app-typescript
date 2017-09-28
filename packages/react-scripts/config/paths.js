@@ -15,6 +15,7 @@ const fs = require('fs');
 // Realytics
 const fse = require('fs-extra');
 const url = require('url');
+const klawSync = require('klaw-sync');
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
@@ -51,18 +52,24 @@ function getServedPath(appPackageJson) {
 }
 
 // Realytics
-function findBundles() {
-  const files = fs.readdirSync(resolveApp('src/bundle'), (err, files) => {
-    return files.filter(file => {
-      return file.endsWith('.ts');
-    });
-  });
-  const bundles = {};
-  files.forEach(file => {
-    const name = file.replace(/\.ts$/, '');
-    bundles[name] = resolveApp('src/bundle/' + file);
-  });
-  return bundles;
+function findEntries() {
+  return klawSync(resolveApp('src/entries'), { nodir: true })
+    .filter(file => {
+      return file.endsWith('.ts') || file.endsWith('.tsx');
+    })
+    .map(file => {
+      const name = path
+        .relative(file, resolveApp('src/entries'))
+        .replace(/(\.tsx?)$/, '');
+      return {
+        path: file.path,
+        name: name,
+      };
+    })
+    .reducer((acc, entry) => {
+      acc[entry.name] = entry.path;
+      return app;
+    }, {});
 }
 
 // config after eject: we're in ./config/
@@ -84,7 +91,7 @@ module.exports = {
 
   // Realytics
   // we export this because we need it to resolve bundles paths
-  bundles: findBundles(),
+  entries: findEntries(),
 };
 
 // @remove-on-eject-begin
@@ -110,7 +117,7 @@ module.exports = {
 
   // Realytics
   // we export this because we need it to resolve bundles paths
-  bundles: findBundles(),
+  entries: findEntries(),
 
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
@@ -150,7 +157,7 @@ if (
 
     // Realytics
     // we export this because we need it to resolve bundles paths
-    bundles: findBundles(),
+    entries: findEntries(),
   };
 }
 // @remove-on-eject-end
