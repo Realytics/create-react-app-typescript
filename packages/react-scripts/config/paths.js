@@ -53,12 +53,16 @@ function getServedPath(appPackageJson) {
 
 // Realytics
 function findEntries() {
-  return klawSync(resolveApp('src/entries'), { nodir: true })
+  const packageJson = require(resolveApp('package.json'));
+  const entryDir = resolveApp(
+    packageJson.entryDir ? packageJson.entryDir : 'src/entries'
+  );
+  return klawSync(entryDir, { nodir: true })
     .filter(file => {
       return file.path.endsWith('.ts') || file.path.endsWith('.tsx');
     })
     .map(file => {
-      const relPath = path.relative(resolveApp('src/entries'), file.path);
+      const relPath = path.relative(entryDir, file.path);
       const name = relPath.replace(/(\.tsx?)$/, '');
       return {
         path: file.path,
