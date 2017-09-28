@@ -1,6 +1,6 @@
 {
   "name": "@realytics/react-scripts-ts",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "Configuration and scripts for Create React App.",
   "repository": "Realytics/create-react-app-typescript",
   "license": "BSD-3-Clause",
