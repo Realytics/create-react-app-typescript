@@ -55,20 +55,19 @@ function getServedPath(appPackageJson) {
 function findEntries() {
   return klawSync(resolveApp('src/entries'), { nodir: true })
     .filter(file => {
-      return file.endsWith('.ts') || file.endsWith('.tsx');
+      return file.path.endsWith('.ts') || file.path.endsWith('.tsx');
     })
     .map(file => {
-      const name = path
-        .relative(file, resolveApp('src/entries'))
-        .replace(/(\.tsx?)$/, '');
+      const relPath = path.relative(resolveApp('src/entries'), file.path);
+      const name = relPath.replace(/(\.tsx?)$/, '');
       return {
         path: file.path,
         name: name,
       };
     })
-    .reducer((acc, entry) => {
+    .reduce((acc, entry) => {
       acc[entry.name] = entry.path;
-      return app;
+      return acc;
     }, {});
 }
 
