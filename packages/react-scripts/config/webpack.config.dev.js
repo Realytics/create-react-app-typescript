@@ -76,8 +76,14 @@ module.exports = {
       ],
     },
     // Realytics
-    // We add each bundle
-    paths.entries
+    // We add each bundle (with webpackHotDevClient for each entry)
+    Object.keys(paths.entries).reduce((acc, bundle) => {
+      acc[bundle] = [
+        require.resolve('react-dev-utils/webpackHotDevClient'),
+        paths.entries[bundle],
+      ];
+      return acc;
+    }, {})
   ),
   output: {
     // Next line is not used in dev but WebpackDevServer crashes without it:
