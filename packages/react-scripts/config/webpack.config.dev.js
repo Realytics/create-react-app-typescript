@@ -206,11 +206,6 @@ module.exports = {
             test: /\.(ts|tsx)$/,
             include: paths.appSrc,
             loader: require.resolve('ts-loader'),
-            // Realytics
-            // options: {
-            //   silent: true,
-            //   transpileOnly: true,
-            // },
           },
 
           // Realytics
@@ -254,15 +249,6 @@ module.exports = {
     }),
 
     // Realtics Add
-    // Use ForkTsCheckerPlugin to speed up compilation
-    // Desable for now because it's not working...
-    // new ForkTsCheckerPlugin({
-    //   tsconfig: paths.appTsConfig,
-    //   tslint: paths.appTsLint,
-    //   workers: ForkTsCheckerPlugin.TWO_CPUS_FREE,
-    //   memoryLimit: 2500,
-    //   formatter: 'codeframe',
-    // }),
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
     }),

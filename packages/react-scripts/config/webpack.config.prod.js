@@ -22,7 +22,6 @@ const paths = require('./paths');
 const getClientEnvironment = require('./env');
 
 // Realytics
-// const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -188,11 +187,6 @@ module.exports = {
             test: /\.(ts|tsx)$/,
             include: paths.appSrc,
             loader: require.resolve('ts-loader'),
-            // Realytics
-            // options: {
-            //   silent: true,
-            //   transpileOnly: true,
-            // },
           },
 
           // Realytics
@@ -279,17 +273,6 @@ module.exports = {
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
     }),
-
-    // Realtics Add
-    // Use ForkTsCheckerPlugin to speed up compilation
-    // new ForkTsCheckerPlugin({
-    //   tsconfig: paths.appTsConfig,
-    //   tslint: paths.appTsLint,
-    //   workers: ForkTsCheckerPlugin.TWO_CPUS_FREE,
-    //   memoryLimit: 2500,
-    //   formatter: 'codeframe',
-    // }),
-
     // Generate a service worker script that will precache, and keep up to date,
     // the HTML & assets that are part of the Webpack build.
     new SWPrecacheWebpackPlugin({

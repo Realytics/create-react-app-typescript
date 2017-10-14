@@ -12,9 +12,9 @@
 
 const path = require('path');
 const fs = require('fs');
+const url = require('url');
 // Realytics
 const fse = require('fs-extra');
-const url = require('url');
 const klawSync = require('klaw-sync');
 
 // Make sure any symlinks in the project folder are resolved:
@@ -88,11 +88,11 @@ module.exports = {
   testsSetup: resolveApp('src/setupTests.ts'),
   appNodeModules: resolveApp('node_modules'),
   appTsConfig: resolveApp('tsconfig.json'),
-  appTsLint: resolveApp('tslint.json'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
 
   // Realytics
+  appTsLint: resolveApp('tslint.json'),
   // we export this because we need it to resolve bundles paths
   entries: findEntries(),
 };
