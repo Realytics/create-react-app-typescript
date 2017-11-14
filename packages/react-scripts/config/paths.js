@@ -11,6 +11,9 @@
 const path = require('path');
 const fs = require('fs');
 const url = require('url');
+// Realytics
+const fse = require('fs-extra');
+const klawSync = require('klaw-sync');
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
@@ -46,6 +49,30 @@ function getServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
+// Realytics
+function findEntries() {
+  const packageJson = require(resolveApp('package.json'));
+  const entryDir = resolveApp(
+    packageJson.entryDir ? packageJson.entryDir : 'src/entries'
+  );
+  return klawSync(entryDir, { nodir: true })
+    .filter(file => {
+      return file.path.endsWith('.ts') || file.path.endsWith('.tsx');
+    })
+    .map(file => {
+      const relPath = path.relative(entryDir, file.path);
+      const name = relPath.replace(/(\.tsx?)$/, '');
+      return {
+        path: file.path,
+        name: name,
+      };
+    })
+    .reduce((acc, entry) => {
+      acc[entry.name] = entry.path;
+      return acc;
+    }, {});
+}
+
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),
@@ -61,6 +88,11 @@ module.exports = {
   appTsConfig: resolveApp('tsconfig.json'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+
+  // Realytics
+  appTsLint: resolveApp('tslint.json'),
+  // we export this because we need it to resolve bundles paths
+  entries: findEntries(),
 };
 
 // @remove-on-eject-begin
@@ -83,6 +115,11 @@ module.exports = {
   appTsTestConfig: resolveApp('tsconfig.test.json'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+
+  // Realytics
+  // we export this because we need it to resolve bundles paths
+  entries: findEntries(),
+
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
   ownNodeModules: resolveOwn('node_modules'), // This is empty on npm 3
@@ -118,6 +155,10 @@ if (
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
     ownNodeModules: resolveOwn('node_modules'),
+
+    // Realytics
+    // we export this because we need it to resolve bundles paths
+    entries: findEntries(),
   };
 }
 // @remove-on-eject-end

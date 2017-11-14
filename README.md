@@ -1,4 +1,9 @@
-# `react-scripts-ts` [![npm version](https://badge.fury.io/js/react-scripts-ts.svg)](https://badge.fury.io/js/react-scripts-ts) [![Build Status](https://travis-ci.org/wmonk/create-react-app-typescript.svg?branch=master)](https://travis-ci.org/wmonk/create-react-app-typescript)
+
+# Fork of `create-react-app-ts`
+
+A fork of `create-react-app-ts` to tweak webpack config for our products.
+
+# Original Readme
 
 Create React apps (with Typescript) with no build configuration.
 

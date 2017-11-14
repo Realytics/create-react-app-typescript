@@ -61,7 +61,7 @@ module.exports = (resolve, rootDir, isEjecting) => {
       'ts-jest': {
         tsConfigFile: paths.appTsTestConfig,
       },
-    }
+    },
   };
   if (rootDir) {
     config.rootDir = rootDir;
@@ -72,11 +72,18 @@ module.exports = (resolve, rootDir, isEjecting) => {
     'coverageReporters',
     'coverageThreshold',
     'snapshotSerializers',
+    // Realytics add moduleNameMapper
+    'moduleNameMapper',
   ];
   if (overrides) {
     supportedKeys.forEach(key => {
       if (overrides.hasOwnProperty(key)) {
-        config[key] = overrides[key];
+        // Realytics add moduleNameMapper
+        if (key === 'moduleNameMapper') {
+          config[key] = Object.assign({}, config[key], overrides[key]);
+        } else {
+          config[key] = overrides[key];
+        }
         delete overrides[key];
       }
     });
