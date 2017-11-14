@@ -1,10 +1,9 @@
-{  
-  "license": "MIT",
+{
+  "license": "BSD-3-Clause",
   "name": "@realytics/react-scripts-ts",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Configuration and scripts for Create React App.",
   "repository": "Realytics/create-react-app-typescript",
-  "license": "BSD-3-Clause",
   "engines": {
     "node": ">=6"
   },
@@ -59,7 +58,7 @@
     "typescript": "~2.6.1",
     "source-map-loader": "^0.2.3",
     "klaw-sync": "^3.0.0",
-    "tsconfig-paths-webpack-plugin": "^0.1.1"    
+    "tsconfig-paths-webpack-plugin": "^0.1.1"
   },
   "devDependencies": {
     "react": "^16.0.0",
