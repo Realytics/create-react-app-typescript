@@ -40,7 +40,9 @@ module.exports = (resolve, rootDir, isEjecting) => {
         'config/jest/fileTransform.js'
       ),
     },
-    transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx|mjs)$'],
+    transformIgnorePatterns: [
+      '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx|mjs)$',
+    ],
     moduleNameMapper: {
       '^react-native$': 'react-native-web',
     },
@@ -55,7 +57,7 @@ module.exports = (resolve, rootDir, isEjecting) => {
       'web.ts',
       'ts',
       'web.tsx',
-      'tsx'
+      'tsx',
     ],
     globals: {
       'ts-jest': {
@@ -72,7 +74,8 @@ module.exports = (resolve, rootDir, isEjecting) => {
     'coverageReporters',
     'coverageThreshold',
     'snapshotSerializers',
-    // Realytics add moduleNameMapper
+    // @realytics
+    // add moduleNameMapper config
     'moduleNameMapper',
   ];
   if (overrides) {

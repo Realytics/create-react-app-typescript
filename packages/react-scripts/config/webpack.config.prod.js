@@ -19,7 +19,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 
-// Realytics
+// @realytics
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -46,7 +46,7 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 // Note: defined here because it will be used more than once.
 const cssFilename = 'static/css/[name].[contenthash:8].css';
 
-// Realytics
+// @realytics
 // Remove ExtractTextPlugin
 
 // This is the production configuration.
@@ -60,16 +60,17 @@ module.exports = {
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
 
-  // Realytics
+  // @realytics
   // We switch to a object config to add bundles
 
   entry: Object.assign(
-    // Realytics
+    // @realytics-start
     // Main is the original entry
     { main: [require.resolve('./polyfills'), paths.appIndexJs] },
-    // Realytics
+    // @realytics
     // We add each bundle
     paths.entries
+    // @realytics-end
   ),
   output: {
     // The build folder.
@@ -79,7 +80,7 @@ module.exports = {
     // We don't currently advertise code splitting but Webpack supports it.
     filename: 'static/js/[name].[chunkhash:8].js',
 
-    // Realytics
+    // @realytics
     // Add this so we can manually load chunk and get there export result
     library: 'Bundle',
 
@@ -107,7 +108,18 @@ module.exports = {
     // https://github.com/facebookincubator/create-react-app/issues/290
     // `web` extension prefixes have been added for better support
     // for React Native Web.
-    extensions: ['.web.ts', '.ts', '.web.tsx', '.tsx', '.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: [
+      '.web.ts',
+      '.ts',
+      '.web.tsx',
+      '.tsx',
+      '.web.js',
+      '.mjs',
+      '.js',
+      '.json',
+      '.web.jsx',
+      '.jsx',
+    ],
     alias: {
       // @remove-on-eject-begin
       // Resolve Babel runtime relative to react-scripts.
@@ -123,7 +135,7 @@ module.exports = {
       'react-native': 'react-native-web',
     },
     plugins: [
-      // Realytics
+      // @realytics
       new TsConfigPathsPlugin({ configFileName: path.appTsConfig }),
 
       // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -177,7 +189,7 @@ module.exports = {
             loader: require.resolve('ts-loader'),
           },
 
-          // Realytics
+          // @realytics
           // We removed CSS loader because we are using Styled-Components
 
           // "file" loader makes sure assets end up in the `build` folder.
@@ -224,7 +236,7 @@ module.exports = {
         minifyCSS: true,
         minifyURLs: true,
       },
-      // Realytics
+      // @realytics
       // Include only the main chunk
       chunks: ['main'],
     }),
@@ -255,7 +267,7 @@ module.exports = {
       sourceMap: shouldUseSourceMap,
     }),
 
-    // Realytics
+    // @realytics
     // Remove ExtractTextPlugin
 
     // Generate a manifest file which contains a mapping of all asset filenames

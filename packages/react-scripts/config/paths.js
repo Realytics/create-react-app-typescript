@@ -11,9 +11,10 @@
 const path = require('path');
 const fs = require('fs');
 const url = require('url');
-// Realytics
+// @realytics-start
 const fse = require('fs-extra');
 const klawSync = require('klaw-sync');
+// @realytics-end
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
@@ -49,7 +50,7 @@ function getServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
-// Realytics
+// @realytics-start
 function findEntries() {
   const packageJson = require(resolveApp('package.json'));
   const entryDir = resolveApp(
@@ -72,6 +73,7 @@ function findEntries() {
       return acc;
     }, {});
 }
+// @realytics-end
 
 // config after eject: we're in ./config/
 module.exports = {
@@ -89,10 +91,11 @@ module.exports = {
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
 
-  // Realytics
+  // @realytics-start
   appTsLint: resolveApp('tslint.json'),
   // we export this because we need it to resolve bundles paths
   entries: findEntries(),
+  // @realytics-end
 };
 
 // @remove-on-eject-begin
@@ -116,9 +119,10 @@ module.exports = {
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
 
-  // Realytics
+  // @realytics-start
   // we export this because we need it to resolve bundles paths
   entries: findEntries(),
+  // @realytics-end
 
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),

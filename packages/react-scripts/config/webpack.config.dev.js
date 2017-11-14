@@ -19,10 +19,11 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
-// Realytics
+// @realytics-start
 // const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+// @realytics-start
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -45,12 +46,12 @@ module.exports = {
   // This means they will be the "root" imports that are included in JS bundle.
   // The first two entry points enable "hot" CSS and auto-refreshes for JS.
 
-  // Realytics
+  // @realytics
   // We switch to a object config to add bundles
 
   entry: Object.assign(
     {
-      // Realytics
+      // @realytics-start
       // Main is the original entry
       main: [
         // We ship a few polyfills by default:
@@ -73,7 +74,7 @@ module.exports = {
         // changing JS code would still trigger a refresh.
       ],
     },
-    // Realytics
+    // @realytics
     // We add each bundle (with webpackHotDevClient for each entry)
     Object.keys(paths.entries).reduce((acc, bundle) => {
       acc[bundle] = [
@@ -82,6 +83,7 @@ module.exports = {
       ];
       return acc;
     }, {})
+    // @realytics-end
   ),
   output: {
     // Add /* filename */ comments to generated require()s in the output.
@@ -90,16 +92,16 @@ module.exports = {
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
 
-    // Realytics
+    // @realytics
     // add chunkhash and name here
     filename: 'static/js/[name].[hash:8].js',
     // There are also additional JS chunk files if you use code splitting.
 
-    // Realytics
+    // @realytics
     // Add this so we can manually load chunk and get there export result
     library: 'Bundle',
 
-    // Realytics
+    // @realytics
     // add chunkhash and name here
     chunkFilename: 'static/js/[name].[hash:8].chunk.js',
     // This is the URL that app is served from. We use "/" in development.
@@ -123,7 +125,18 @@ module.exports = {
     // https://github.com/facebookincubator/create-react-app/issues/290
     // `web` extension prefixes have been added for better support
     // for React Native Web.
-    extensions: ['.web.ts', '.ts', '.web.tsx', '.tsx', '.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: [
+      '.web.ts',
+      '.ts',
+      '.web.tsx',
+      '.tsx',
+      '.web.js',
+      '.mjs',
+      '.js',
+      '.json',
+      '.web.jsx',
+      '.jsx',
+    ],
     alias: {
       // @remove-on-eject-begin
       // Resolve Babel runtime relative to react-scripts.
@@ -139,7 +152,7 @@ module.exports = {
       'react-native': 'react-native-web',
     },
     plugins: [
-      // Realytics
+      // @realytics
       new TsConfigPathsPlugin({ configFileName: path.appTsConfig }),
 
       // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -194,10 +207,10 @@ module.exports = {
             loader: require.resolve('ts-loader'),
           },
 
-          // Realytics
+          // @realytics
           // We remove babel, no JS in our app
 
-          // Realytics
+          // @realytics
           // We removed CSS loader because we are using Styled-Components
 
           // "file" loader makes sure those assets get served by WebpackDevServer.
@@ -232,7 +245,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
-      // Realytics
+      // @realytics
       // Include only the main chunk
       chunks: ['main'],
     }),
